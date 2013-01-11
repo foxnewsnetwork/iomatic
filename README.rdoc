@@ -1,6 +1,7 @@
 = iomatic
 
-Description goes here.
+Monadic IO context for business logic for when you're building a business on top of
+other people's code that you have no direct control over.
 
 == Contributing to iomatic
  
