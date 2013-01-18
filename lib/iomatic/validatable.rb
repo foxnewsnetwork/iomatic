@@ -1,26 +1,23 @@
 
 module IOMatic
   module Validatable
-    autoload :Validator, "validatable/validator"
-    autoload :ClassMethods, "validatable/class_methods"
+    autoload :Validator, File.join(File.dirname(__FILE__), "validatable", "validator" )
+    autoload :ClassMethods, File.join(File.dirname(__FILE__), "validatable", "class_methods")
 
     def self.included( base )
       base.extend ClassMethods
     end
 
-    # This MUST return an array. If array is empty,
-    # then obviously no errors are present
-    def call object 
-      self.class.validator.call object
+    # returns a boolean
+    def valid?
+      return self.class.validator.valid? self if self.class.validator.respond_to? :valid? 
+      self.class.validator.call(self).empty?
     end
 
-    # returns a boolean
-    def errors? object
-      if self.class.validator.respond_to? :errors
-        self.class.validator.errors object
-      else
-        self.class.validator.call(object).any?
-      end
+    # This MUST return an array. If array is empty,
+    # then obviously no errors are present
+    def errors
+      self.class.validator.call self
     end
   end
 end

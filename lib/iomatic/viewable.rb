@@ -3,26 +3,20 @@
 
 module IOMatic
 	module Viewable
+		autoload :ClassMethods, File.join(File.dirname(__FILE__), "viewable", "class_methods")
+		autoload :Renderer, File.join(File.dirname(__FILE__), "viewable", "renderer")
+
 		# used to hook in class methods also
 		def self.included base
 			base.extend ClassMethods
-			base.include IOMatic
 		end # includeded base
 
-		# takes something that is iomatic
-		# and returns some sort of application-
-		# specific view context. We do json as
-		# a default, but it really isn't necessary
-		def to_viewable
-			to_json
-		end # to_viewable
-
-		# the render function; no real reason to
-		# mess with this, it renders based upon
-		# what renderer you've set up. It returns
-		# an error array.
+		# the render function; uses the viewable_renderer
+		# to generate a view. It necessarily returns some
+		# sort of relevant view context, but what that
+		# context actually consists of is up to implementation
 		def render
-			viewable_renderer.call to_viewable
+			self.class.viewable_renderer.call self
 		end # render
 	end # Viewable
 end # IOMatic

@@ -11,8 +11,8 @@ describe IOMatic do
     it "should have Dispatchable" do
       IOMatic::Dispatchable.should_not be_nil
     end
-    it "should have Presistable" do
-      IOMatic::Persistable.should_not be_nil
+    it "should have Monadic" do
+      IOMatic::Monadic.should_not be_nil
     end
     it "should have Validatable" do
       IOMatic::Validatable.should_not be_nil

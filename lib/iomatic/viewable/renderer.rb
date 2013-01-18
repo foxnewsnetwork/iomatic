@@ -4,8 +4,8 @@ module IOMatic
     # to build a renderer. Be sure to override to_viewable to 
     # complete the api
     class Renderer
-      def self.call view_context
-        throw "Default renderer called, but not yet implemented"
+      def call object
+        object.to_s
       end # call
     end # Renderer
   end

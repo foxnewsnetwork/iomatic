@@ -9,8 +9,8 @@ module IOMatic
       end
 
       # returns a boolean if there are errors present
-      def errors? object
-        false
+      def valid? object
+        self.call(object).empty?
       end
     end
   end

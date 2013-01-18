@@ -1,5 +1,5 @@
 module IOMatic
-  module Validator
+  module Validatable
     module ClassMethods
 
       attr_reader :validator
