@@ -11,6 +11,25 @@ describe IOMatic::Monadic do
 
   end
 
+  describe "inheritance" do
+    class Faggot < IOMatic::Monadic::Context; end
+    class Bats < Something
+      setup_monad Faggot
+    end
+
+    let(:faggot) { Bats.new }
+    let(:thing) { Something.new }
+
+    it "should contextify to what was setup" do
+      faggot.contextify.should be_a Faggot
+    end
+
+    it "should not have changed the parent class's context" do
+      thing.contextify.should be_a IOMatic::Monadic::Context
+    end
+
+  end
+
   context "generic api methods" do
 
     before :each do
@@ -44,5 +63,26 @@ describe IOMatic::Monadic do
     end
     
   end
+
+  describe "static liftM" do
+
+    let(:thing) { Something }
+
+    it "should respond to liftM" do
+      thing.should respond_to :liftM
+    end
+
+    it "should lift without a block" do
+      thing.liftM(thing.new.contextify).should be_a IOMatic::Monadic::Context
+    end
+
+    it "should lift with a block and apply a transform" do
+      thing.liftM(thing.new.contextify) do |a|
+        a.should be_a Something
+        a
+      end.should be_a IOMatic::Monadic::Context
+    end
+
+  end # liftM
 
 end
