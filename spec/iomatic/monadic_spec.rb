@@ -4,12 +4,53 @@ describe IOMatic::Monadic do
 
   class Something
     include IOMatic::Monadic
-
+    attr_accessor :value
     def meth1
       1
     end
 
   end
+
+  describe "static api" do
+    it "should provide someway of establishing a zero" do
+      Something.should respond_to :define_zero
+    end
+
+    it "should provide some way of setting the appropriate context" do
+      Something.should respond_to :setup_monad
+    end
+
+    describe "contextify" do
+      let(:object) { Something.new }
+
+      it "should return a context" do
+        Something.contextify(object).should be_a IOMatic::Monadic::Context
+      end
+    end
+
+    describe :define_zero do
+      before :each do
+        Something.define_zero do
+          a = Something.new
+          a.value = 0
+          a
+        end
+      end
+      let(:zero) { Something.contextify }
+
+      it "should be the zero context" do 
+        zero.value.should eq 0
+      end
+
+      it "should be a context" do
+        zero.should be_a IOMatic::Monadic::Context
+      end
+
+      it "should provide a flag to indictate it's zero" do
+        zero.should be_nothing
+      end
+    end # define_zero
+  end # static api
 
   describe "inheritance" do
     class Faggot < IOMatic::Monadic::Context; end
@@ -43,10 +84,6 @@ describe IOMatic::Monadic do
 
     it "should allow a class mixing in monadic to specify its context" do
       Something.should respond_to :setup_monad
-    end
-
-    it "should somehow overcome the weakness with ruby inheritance that makes it so that inherited class do not also inherit a copy of the superclass's static methods" do
-      pending
     end
 
   end 
