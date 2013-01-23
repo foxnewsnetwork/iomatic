@@ -9,12 +9,16 @@ module IOMatic
 
       attr_accessor :pure
 
-      def initialize(object)
+      def initialize(object=nil)
         @pure = object
       end
 
+      def nothing?
+        true if @pure.nil? || @pure.nothing?
+      end
+
       def purify
-        pure
+        @pure
       end
 
       def method_missing(method, *args)

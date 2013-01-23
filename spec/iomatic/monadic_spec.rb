@@ -61,6 +61,12 @@ describe IOMatic::Monadic do
     let(:faggot) { Bats.new }
     let(:thing) { Something.new }
 
+    it "should allow me to initialize a context that defaults to the zero context" do
+      monad = Faggot.new
+      monad.should be_a IOMatic::Monadic::Context
+      monad.should be_nothing
+    end
+
     it "should contextify to what was setup" do
       faggot.contextify.should be_a Faggot
     end
